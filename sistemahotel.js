@@ -73,7 +73,19 @@ class sistema{
         console.log('Como podemos ajuda-lo?\n')
         console.log('--->  Digite 1 para cadastrar um cliente.')
         console.log('--->  Digite 2 para cadastrar um funcionario.')
+        console.log('--->  Digite 3 para logar como cliente')
+        console.log('--->  Digite 4 para logar como funcionario')
         console.log('--->  Digite 111 para fechar')
+    }
+        //print que permite o cliente vizualizar as opcoes
+    paginacliente(){
+        console.log('Como podemos ajuda-lo?\n')
+        console.log('--->  Digite 1 para ver meu dados.')
+        console.log('--->  Digite 2 para ver lista de quartos.')
+        console.log('--->  Digite 3 para fazer reserva')
+        console.log('--->  Digite 4 para cancelar reserva')
+        console.log('--->  Digite 5 para ver suas reservas')
+        console.log('--->  Digite 6 para sair')
     }
 
         //metodo que permite o cliente realizar cadastro    
@@ -97,7 +109,7 @@ class sistema{
         //imprime para que seja possivel vizualizar (retirar)
         console.log(this.listaclientes)
         //Mensagagem de cadastrado com sucesso!
-        console.log('-----CLIENTE CADASTRADO COM SUCESSO-----')
+        console.log('\n \n-----CLIENTE CADASTRADO COM SUCESSO-----\n \n')
     }
 
 
@@ -122,7 +134,57 @@ class sistema{
         console.log('\n \n-----FUNCIONARIO CADASTRADO COM SUCESSO-----\n \n')
     }
 
+
+    logincliente(){
+        //copia a lista do objeto em outra lista para facilitar o trabalho
+        let list=this.listaclientes
+        
+        //confere se ha clientes cadastrados
+        if (parseFloat(list.length) == 0){
+            console.log('\n \n NAO HA CLIENTES CADASTRADOS \n \n')
+            return false
+
+        }
+        
+        //caso contrario iremos pedir a senha e cadastro
+        else{
+            //posicao do while comeca em 0
+            let pos = 0
+            //pergunta o nome do usuario
+            console.log('Qual o seu CPF?')
+            let cpf = requisicao.question()
+            //while para percorrer a lista em busca do cpf em questao
+            while (pos < parseFloat(list.length) ){
+                //confere se o cpf em questao existe
+                if(cpf == list[pos].cpf){
+                    console.log('Boa tarde cliente: '+ list[pos].nome)
+                    console.log('DIGITE SUA SENHA: ')
+                    let password = requisicao.question()
+                    
+                    if (password == list[pos].senha){
+                        console.log('\n \n Bem vindo: ' + list[pos].nome + '\n\n')
+                        return list[pos].id_cliente
+                    }
+                    else{
+                        console.log('SENHA INCORRETA')
+                        return false
+                    }
+                    
+                }
+                pos = pos+1
+            }
+            console.log( 'CPF nao encontrado')
+            return false
+        }
+        
+    }
+
+
+
 }
+
+
+    
 
 
 
@@ -150,6 +212,34 @@ function main(){
         if (escolha==2){
             //roda o metodo de cadastro de funcionarios
             system.cadastrofuncionario()
+        }
+        
+        //login cliente
+        if (escolha == 3){
+            //pega o return do login
+            let resposta = system.logincliente()
+            //ve se deu falso
+
+            if(resposta !== false){
+                let escolha = 0
+                while(escolha != 6){
+                    system.paginacliente()
+                    escolha=requisicao.question()
+                    if (escolha==6){
+                        break
+                    }
+
+                }
+            }
+
+            
+
+        }
+
+        //login funcionario
+        if (escolha == 4){
+            console.log('ainda em desenvolvimento')
+
         }
 
     }
