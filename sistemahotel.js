@@ -27,21 +27,23 @@ class funcionario{
 }
 
 class reserva{
-    constructor(id_reserva,id_cliente,status,checkin,checkout){
+    constructor(id_reserva,id_cliente,status,checkin,checkout,quarto){
         //classe reserva e seus atributos
         this.id_reserva=id_reserva
         this.id_cliente=id_cliente
         this.status=status
         this.checkin=checkin
         this.checkout=checkout
+        this.quarto=quarto
     }
 
 
 }
 
 class quartos{
-    constructor(ncamas,preco,quantidade,nome,descricao){
+    constructor(id_quarto,ncamas,preco,quantidade,nome,descricao){
         //classe quartos e seus atributos
+        this.id_quarto=id_quarto
         this.ncamas=ncamas
         this.preco=preco
         this.quantidade=quantidade
@@ -52,15 +54,18 @@ class quartos{
 }
 
 class sistema{
-    constructor(listaclientes,listafuncionarios,listareservas,listaquartos,idf,idc,idr){
+    constructor(listaclientes,listaclientessegura,listafuncionarios,listareservas,listaquartos,idf,idc,idr,idq){
         //classe sistema e seus atributos
         this.listaclientes=listaclientes
+        //lista para salvar clientes, porem sem suas senhas para os funcionariso verem
+        this.listaclientessegura=listaclientessegura
         this.listafuncionarios=listafuncionarios
         this.listareservas=listareservas
         this.listaquartos=listaquartos
         this.idc=idc
         this.idf=idf
         this.idr=idr
+        this.idq=idq
         this.novoIDC = function() {
             console.log(idc)
         }
@@ -68,13 +73,12 @@ class sistema{
 
         //print que permite o usuário vizualizar suas opcoes de acao
     paginaprincipal(){
-        console.log('BEM VINDO AO SISTEMA DO HOTEL F-LUXO!')
         console.log('Como podemos ajuda-lo?\n')
         console.log('--->  Digite 1 para cadastrar um cliente.')
         console.log('--->  Digite 2 para cadastrar um funcionario.')
         console.log('--->  Digite 3 para logar como cliente')
         console.log('--->  Digite 4 para logar como funcionario')
-        console.log('--->  Digite 111 para fechar')
+        console.log('--->  Digite 5 para fechar')
     }
         //print que permite o cliente vizualizar as opcoes
     paginacliente(){
@@ -121,10 +125,13 @@ class sistema{
             let senha=requisicao.question()
             //cria o cliente com as informacoes
             let cliente_cadastrado = new cliente(this.idc,nomecliente,nascimento,cpf,email,senha)
+            let cliente_cadastrado_seguro = new cliente(this.idc,nomecliente,nascimento,cpf,email,'(oculto)')
             //cria um novo id
             this.idc=this.idc+1
             //cadastra o cliente
             this.listaclientes.push(cliente_cadastrado)
+            //adiciona ele na lista que nao contem senhas
+            this.listaclientessegura.push(cliente_cadastrado_seguro)
             //imprime para que seja possivel vizualizar (retirar)
             console.log(this.listaclientes)
             //Mensagagem de cadastrado com sucesso!
@@ -288,27 +295,239 @@ class sistema{
     }
 
     verclientes(){
-        //retorna a lista
-        return(this.listaclientes)
+        //retorna a lista sem as senhas dos clientes
+        return(this.listaclientessegura)
     }
- 
+
+    adicionarquarto(){
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let escolha = requisicao.question()
+        if (escolha == 's'){
+            //pega as informacoes e as guarda em variaveis
+            let id_quarto=this.idq
+            console.log('Qantas camas tem o quarto')
+            let cama = requisicao.question()
+            console.log('Qual o preco/noite?')
+            let precos = requisicao.question()
+            console.log('Quantos desses quartos temos?')
+            let qtd = requisicao.question()
+            qtd=parseFloat(qtd)
+            console.log('Qual o nome do quarto')
+            let name = requisicao.question()
+            console.log('Digite uma descricao para o quarto')
+            let descricao = requisicao.question()
+            //cria o quarto novo com as informacoes
+            let quarto_cadastrado = new quartos(id_quarto,cama,precos,qtd,name,descricao)
+            this.listaquartos.push(quarto_cadastrado)
+            this.idq=this.idq+1
+            
+            console.log('\n \n-----QUARTO CADASTRADO COM SUCESSO-----\n \n')
+        }
+    }
+
+    fazerreserva(id){
+        if (parseFloat(this.listaquartos.length)==0){
+            console.log('\n\n NAO HA QUARTOS CADASTRADOS PARA RESERVA \n\n')
+            return 0
+        }
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+        if (escolha == 's'){
+            //pega as informacoes e as guarda em variaveis
+            let status = 'realizada'
+            console.log('qual seria a data de checkin')
+            let checkin = requisicao.question()
+            console.log('qual seria a data de chekout')
+            let checkout = requisicao.question()
+            console.log(this.listaquartos)
+            console.log('Escolha um quarto (Digite o ID do quarto)')
+            let quarto = parseFloat(requisicao.question())
+            //fara um laco de repeticao para ver se o quarto que o cliente quer esta disponivel
+            let pos = 0
+            let list = this.listaquartos
+            console.log(parseFloat(list.length))
+        
+            while(pos < parseFloat(list.length)){
+
+                if (parseFloat(quarto) == list[pos].id_quarto){
+                    if(list[pos].quantidade<=0){
+                        console.log('\n\nESSE QUARTO NAO ESTA DISPONIVEL\n\n')
+                        break
+                    }
+
+                    else{
+                        let reserva_cadastrada = new reserva(this.idr,id,status,checkin,checkout,quarto)
+                        //cria um novo id para a proxima reserva
+                        this.idr=this.idr+1
+                        //cadastra a reserva na lista
+                        this.listareservas.push(reserva_cadastrada)
+                        console.log('\n \n-----RESERVA CADASTRADA COM SUCESSO-----\n \n')
+                        this.listaquartos[pos].quantidade -= 1
+                    }
+                }
+                pos=pos+1
+            }
+            
+        }
+    }
+
+
+    verreservas_cliente(id){
+        //permite o cliente ver as suas reservas
+        //verifica se ha alguma reserva
+        if (parseFloat(this.listareservas.length)==0){
+            console.log('VOCE NAO TEM RESERVAS')
+            return 0
+        }
+        let pos = 0
+        let reservas = 0
+        while (pos < parseFloat(this.listareservas.length)){
+            if (this.listareservas[pos].id_cliente == id){
+                console.log(this.listareservas[pos])
+                reservas = reservas + 1
+            }   
+            pos=pos+1
+        }
+        if (reservas == 0){
+            console.log('VOCE NAO TEM RESERVAS')
+            return 0
+        }
+        
+    }
+
+    cancelarreserva(id){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+
+        if (escolha == 's'){
+            //imprime as reservas do cliente
+            let reserva = this.verreservas_cliente(id)
+            if (this.listareservas.length != 0){
+                console.log('Qual reserva voce deseja cancelar? (DIGITE O ID)')
+                let escolha = parseFloat(requisicao.question())
+            
+                let pos = 0
+                while (pos < this.listareservas.length){
+                    if (reserva == 0){
+                        pos = pos + 1
+                        continue
+                    }
+                    if (this.listareservas[pos].id_cliente==id){
+                        
+                        if(this.listareservas[pos].id_reserva == escolha){
+                            this.listareservas[pos].status = 'cancelada'
+                            console.log('RESERVA CANCELADA COM SUCESSO')
+                        }
+                    }
+                    pos = pos + 1
+                }
+                  
+            }
+            
+        }
+
+    }
+
+    mudarstatus(){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+
+        if (escolha == 's'){
+            //imprime as reservas existentes
+            console.log(this.verreservas())
+            //pergunta qual reserva ele deseja alterar
+            console.log('Qual reserva desejas alterar? (DIGITE O ID DA RESERVA)')
+            let escolha = parseFloat(requisicao.question())
+            let pos = 0
+            while(pos < this.listareservas.length){
+                //varre todas as reservas em busca da reserva escolhida
+                if (this.listareservas[pos].id_reserva==escolha){
+                    //pergunta o novo status
+                    console.log('Qual deve ser o novo status?')
+                    console.log('OPCOES: pendente, adiada, realizada, cancelada')
+                    let opcao = requisicao.question()
+                    //de fato a muda
+                    this.listareservas[pos].status = opcao
+                    console.log('MUDANCA REALIZADA COM SUCESSO')
+                    break
+                }
+                pos=pos+1
+            }
+
+
+                            
+        }
+
+    }
 
 }
 
 
 function main(){
-
+    console.log('BEM VINDO AO SISTEMA DO HOTEL F-LUXO!\n')
     let escolha = 1
     //cria o sistema, com as suas listas e IDs zerados
-    let system = new sistema([],[],[],[],0,0,0)
+    let system = new sistema([],[],[],[],[],0,0,0,0)
 
-        while (escolha != 111){
+        while (escolha != 5){
         //imprime as opcoes do client
         system.paginaprincipal()
-
+        let listaopcoes = ['1','2','3','4','5']
         //pergunta o que ele deseja fazer
         escolha = requisicao.question()
 
+        if (!(escolha in listaopcoes)){
+            if (escolha != 5){
+            console.log('\n DIGITE UM VALOR VALIDO \n')
+            continue}
+            
+        }
         //cadastro de cliente
         if (escolha==1){
             //roda o metodo de cadastro de clientes
@@ -346,16 +565,16 @@ function main(){
                         }
                     }
                     if (escolha == 3){
-                        //fazer reserva
+                        system.fazerreserva(resposta)
                         
                     }
 
                     if (escolha == 4){
-                        //cancelar reserva
+                        system.cancelarreserva(resposta)
                     }
 
                     if (escolha == 5){
-                        //ver reservas
+                        system.verreservas_cliente(resposta)
 
                     }
 
@@ -390,6 +609,7 @@ function main(){
                         }
 
                     if (escolha == 2){
+                        //verifica antes se tem quartos
                         if (parseFloat(system.verquartos().length) == []){
                             console.log('\n\n NAO HA QUARTOS CADASTRADOS\n\n')
                         }
@@ -410,7 +630,8 @@ function main(){
                     }
 
                     if (escolha == 4){
-                        //muda o status de alguma reserca
+                        //muda o status de alguma reserva
+                        system.mudarstatus()
                     }
 
                     if (escolha == 5){
@@ -425,7 +646,8 @@ function main(){
                     }
 
                     if (escolha == 6){
-                        //adiciona um quarto
+                        //executa o metodo de adicionar quarto
+                        system.adicionarquarto()
                     }
 
                     if (escolha==7){
