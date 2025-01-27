@@ -632,7 +632,7 @@ class sistema{
             //imprime as reservas do cliente
             let reserva = this.verreservas_cliente(id)
             if (this.listareservas.length != 0){
-                console.log('Qual reserva voce deseja cancelar? (DIGITE O ID)')
+                console.log('Qual reserva voce deseja cancelar? (DIGITE O ID DA RESERVA)')
                 let escolha = verificar_numero()
                 let pos = 0
                 while (pos < this.listareservas.length){
@@ -739,9 +739,9 @@ class sistema{
         if (this.verreservas_cliente(id)==0){
             return 0
         }
-        
-        console.log('Qual e o nome do quarto?')
-        let nome_quarto = verificar_nome()
+    
+        console.log('Qual e o ID do quarto?')
+        let nome_quarto = verificar_numero()
         let avalia = this.listaclientes[id].nome
         console.log('Quantas estrelas voce da para o quarto? (de 0 a 5)')
         let listaestrelas = [0,1,2,3,4,5]
@@ -797,6 +797,7 @@ class sistema{
                         console.log('qual deve ser o novo(a) '+escolha)
                         let novo = verificar_nome()
                         this.listaclientes[id].nome = novo
+                        this.listaclientessegura[id].nome = novo
 
                     }
                     if(escolha=='cpf'){
@@ -818,12 +819,14 @@ class sistema{
                         console.log('qual deve ser o novo(a) '+escolha)
                         let novo = verificar_email()
                         this.listaclientes[id].email = novo
+                        this.listaclientessegura[id].email = novo
                     }
                     if(escolha=='nascimento'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
                         let novo = verificar_data()
                         this.listaclientes[id].data_nascimento = novo
+                        this.listaclientessegura[id].data_nascimento = novo
                         
                     }
 
