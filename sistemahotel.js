@@ -1,6 +1,7 @@
 //utilizar para fazer perguntas
 var requisicao = require('readline-sync')
 
+
 class cliente{
     constructor(id_cliente,nome,data_nascimento,cpf,email,senha){
         //classe cliente e seus atributos
@@ -62,6 +63,111 @@ class avaliacoes{
         this.avaliador=avaliador
     }
 }
+
+
+function verificar_numero(){
+    
+    while (true){
+        let numero = requisicao.question()
+        //confere se o numero digitado é um numero realmente
+        if (!isNaN(numero) && numero.length > 0 ){
+            //retorna em forma de numero
+            return parseFloat(numero)}
+        else{
+            //caso o numero nao esteja de acordo, pede para repetir
+            console.log('DIGITE UM NUMERO VALIDO')
+            }
+        }
+        
+    }
+
+function verificar_nome(){
+
+    while (true){
+        let numero = requisicao.question()
+        //confere se o nome digitado tem ao menos uma palavra
+        if (numero.length > 0 ){
+            //retorna em forma de string
+            return numero}
+        else{
+            //caso o nome nao esteja de acordo, pede para repetir
+            console.log('DIGITE UM NOME VALIDO')
+            }
+        }
+        
+    }
+
+function verificar_cpf(){
+
+    while (true){
+        let numero = requisicao.question()
+        //confere se o numero digitado é um numero realmente e se tem tamanho de cpf
+        if (!isNaN(numero) && numero.length == 11 ){
+            //retorna em forma de numero
+            return numero}
+        else{
+            //caso o cpf nao esteja de acordo, pede para repetir
+            console.log('DIGITE UM CPF VALIDO')
+            }
+        }
+        
+    }
+
+ function isDateValid(dateStr) {
+    return !isNaN(new Date(dateStr));
+    }
+
+function verificar_data(){
+
+    while (true){
+        let numero = requisicao.question()
+        //confere se o numero digitado é um numero realmente e se tem tamanho de cpf
+        if (isDateValid(numero)){
+            //retorna em forma de numero
+            return numero}
+        else{
+            //caso o cpf nao esteja de acordo, pede para repetir
+            console.log('DIGITE UMA DATA VALIDA')
+            console.log('FORMATO: MM/DD/AAAA')
+            }
+        }
+
+}
+
+function verificar_senha(){
+
+    while (true){
+        let numero = requisicao.question()
+        //confere se o numero digitado é um numero realmente e se tem tamanho de cpf
+        if (numero.length>4){
+            //retorna em forma de numero
+            return numero}
+        else{
+            //caso o cpf nao esteja de acordo, pede para repetir
+            console.log('DIGITE UMA SENHA VALIDA')
+            }
+        }
+
+}
+
+function verificar_email(){
+
+    while (true){
+        let numero = requisicao.question()
+        //confere se o numero digitado é um numero realmente e se tem tamanho de cpf
+        if (numero.includes('@') && numero.includes('.')){
+            //retorna em forma de numero
+            return numero}
+        else{
+            //caso o cpf nao esteja de acordo, pede para repetir
+            console.log('DIGITE UM EMAIL VALIDO')
+            }
+        }
+        
+    }
+
+    
+
 
 class sistema{
     constructor(listaclientes,listaclientessegura,listafuncionarios,listareservas,listaquartos,listaavaliacoes,idf,idc,idr,idq){
@@ -142,26 +248,28 @@ class sistema{
         }
         if (escolha == 's'){
             console.log('Qual é o nome do cliente?')
-            let nomecliente = requisicao.question()
+            let nomecliente = verificar_nome()
             console.log('Qual é a data de nascimento?')
-            let nascimento = requisicao.question()
-            console.log('Qual e o cpf?')
-            let cpf=requisicao.question()
+            console.log('FORMATO: MM/DD/AAAA')
+            let nascimento = verificar_data()
+            console.log('Qual e o cpf? (11 numeros)')
+            console.log('exemplo: 00000000000')
+            let cpf = verificar_cpf()
             console.log('Digite seu email?')
-            let email=requisicao.question()
+            let email = verificar_email()
             console.log('Digite sua senha')
-            let senha=requisicao.question()
+            console.log('LEMBRETE: A SENHA DEVE CONTER NO MINIMO 5 CARACTERES')
+            let senha= verificar_senha()
             //cria o cliente com as informacoes
             let cliente_cadastrado = new cliente(this.idc,nomecliente,nascimento,cpf,email,senha)
-            let cliente_cadastrado_seguro = new cliente(this.idc,nomecliente,nascimento,cpf,email,'(oculto)')
+            let cliente_cadastrado_seguro = new cliente(this.idc,nomecliente,nascimento,'(oculto)',email,'(oculto)')
             //cria um novo id
             this.idc=this.idc+1
             //cadastra o cliente
             this.listaclientes.push(cliente_cadastrado)
             //adiciona ele na lista que nao contem senhas
             this.listaclientessegura.push(cliente_cadastrado_seguro)
-            //imprime para que seja possivel vizualizar (retirar)
-            console.log(this.listaclientes)
+        
             //Mensagagem de cadastrado com sucesso!
             console.log('\n \n-----CLIENTE CADASTRADO COM SUCESSO-----\n \n')
     }
@@ -189,21 +297,23 @@ class sistema{
         if (escolha == 's'){
             //pega as informacoes e as guarda em variaveis
             console.log('Qual é o nome do funcionario?')
-            let nomefuncionario = requisicao.question()
-            console.log('Qual o seu cpf?')
-            let cpf = requisicao.question()
-            console.log('Digite seu email?')
-            let email = requisicao.question()
+            let nomefuncionario = verificar_nome()
+            console.log('Qual o seu cpf? (Digite sem pontos ou tracos)')
+            console.log('exemplo: 00000000000')
+            //verifica se o cpf esta de acordo
+            let cpf = verificar_cpf()
+            console.log('Digite seu email')
+            //verifica se o email esta de acordo
+            let email = verificar_email()
             console.log('Digite sua senha')
-            let senha = requisicao.question()
+            let senha = verificar_senha()
             //cria o funcionario novo com as informacoes
             let funcionario_cadastrado = new funcionario(this.idf,nomefuncionario,cpf,email,senha)
             //cria um novo id para o funcionario
             this.idf=this.idf+1
             //cadastra o funcionario na lista
             this.listafuncionarios.push(funcionario_cadastrado)
-            //imprime a lista de funcionarios (retirar)
-            console.log(this.listafuncionarios)
+
             console.log('\n \n-----FUNCIONARIO CADASTRADO COM SUCESSO-----\n \n')
          }
     }
@@ -388,14 +498,16 @@ class sistema{
             //pega as informacoes e as guarda em variaveis
             let id_quarto=this.idq
             console.log('Quantas camas tem o quarto')
-            let cama = requisicao.question()
+            //funcao que verifica se quantidade de camas é realmente um numero
+            let cama = verificar_numero()
             console.log('Qual o preco/noite?')
-            let precos = requisicao.question()
+            //funcao que verifica se preço é realmente um numero
+            let precos = verificar_numero()
             console.log('Quantos desses quartos temos?')
-            let qtd = requisicao.question()
-            qtd=parseFloat(qtd)
+            let qtd = verificar_numero()
+            //funcao que verifica se quantidade é realmente um numero
             console.log('Qual o nome do quarto')
-            let name = requisicao.question()
+            let name = verificar_nome()
             console.log('Digite uma descricao para o quarto')
             let descricao = requisicao.question()
             //cria o quarto novo com as informacoes
@@ -433,16 +545,17 @@ class sistema{
             //pega as informacoes e as guarda em variaveis
             let status = 'realizada'
             console.log('qual seria a data de checkin')
-            let checkin = requisicao.question()
+            console.log('FORMATO: MM/DD/AAAA')
+            let checkin = verificar_data()
             console.log('qual seria a data de chekout')
-            let checkout = requisicao.question()
+            console.log('FORMATO: MM/DD/AAAA')
+            let checkout = verificar_data()
             console.log(this.listaquartos)
             console.log('Escolha um quarto (Digite o ID do quarto)')
-            let quarto = parseFloat(requisicao.question())
+            let quarto = verificar_numero()
             //fara um laco de repeticao para ver se o quarto que o cliente quer esta disponivel
             let pos = 0
             let list = this.listaquartos
-            console.log(parseFloat(list.length))
         
             while(pos < parseFloat(list.length)){
 
@@ -520,8 +633,7 @@ class sistema{
             let reserva = this.verreservas_cliente(id)
             if (this.listareservas.length != 0){
                 console.log('Qual reserva voce deseja cancelar? (DIGITE O ID)')
-                let escolha = parseFloat(requisicao.question())
-            
+                let escolha = verificar_numero()
                 let pos = 0
                 while (pos < this.listareservas.length){
                     if (reserva == 0){
@@ -568,7 +680,7 @@ class sistema{
             console.log(this.verreservas())
             //pergunta qual reserva ele deseja alterar
             console.log('Qual reserva desejas alterar? (DIGITE O ID DA RESERVA)')
-            let escolha = parseFloat(requisicao.question())
+            let escolha = verificar_numero()
             let pos = 0
             while(pos < this.listareservas.length){
                 //varre todas as reservas em busca da reserva escolhida
@@ -576,17 +688,21 @@ class sistema{
                     //pergunta o novo status
                     console.log('Qual deve ser o novo status?')
                     console.log('OPCOES: pendente, adiada, realizada, cancelada')
+                    let listaopcoes = ['pendente','adiada','realizada','cancelada']
                     let opcao = requisicao.question()
                     //de fato a muda
-                    this.listareservas[pos].status = opcao
-                    console.log('MUDANCA REALIZADA COM SUCESSO')
-                    break
+                    if(listaopcoes.includes(opcao)){
+                        this.listareservas[pos].status = opcao
+                        console.log('MUDANCA REALIZADA COM SUCESSO')
+                        break
+                    }
+                    else{
+                        continue
+                    }
                 }
                 pos=pos+1
             }
 
-
-                            
         }
 
     }
@@ -619,14 +735,22 @@ class sistema{
         if (this.verreservas_cliente(id)==0){
             return 0
         }
-    
+        
+        console.log('Qual e o nome do quarto?')
+        let nome_quarto = verificar_nome()
         let avalia = this.listaclientes[id].nome
         console.log('Quantas estrelas voce da para o quarto? (de 0 a 5)')
-        let stars = requisicao.question()
-        console.log('De uma pequena descricao da avaliacao')
+        let listaestrelas = [0,1,2,3,4,5]
+        let stars = parseFloat(requisicao.question())
+        while(!(listaestrelas.includes(stars))){
+            console.log('DIGITE UM VALOR VALIDO PARA AS ESTRELAS')
+            console.log('DE 0 A 5')
+            stars = parseFloat(requisicao.question())
+        }
+
+        console.log('De uma pequena descricao da avaliacao, caso queira')
         let desc = requisicao.question()
-        console.log('Qual era o nome do quarto?')
-        let nome_quarto
+    
         //compila as informacoes no objeto avaliacoes
         let avaliacao = new avaliacoes(stars,nome_quarto,desc,avalia)
         this.listaavaliacoes.push(avaliacao)
@@ -667,34 +791,34 @@ class sistema{
                     if(escolha=='nome'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_nome()
                         this.listaclientes[id].nome = novo
 
                     }
                     if(escolha=='cpf'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_cpf()
                         this.listaclientes[id].cpf = novo
                         
                     }
                     if(escolha=='senha'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_senha()
                         this.listaclientes[id].senha = novo
                         
                     }
                     if(escolha=='email'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_email()
                         this.listaclientes[id].email = novo
                     }
                     if(escolha=='nascimento'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_data()
                         this.listaclientes[id].data_nascimento = novo
                         
                     }
@@ -709,8 +833,6 @@ class sistema{
                     console.log('DIGITE UMA OPCAO VALIDA')
                 }
             }
-            
-            
         }
     }
 
@@ -747,28 +869,28 @@ class sistema{
                     if(escolha=='nome'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_nome()
                         this.listafuncionarios[id].nome = novo
 
                     }
                     if(escolha=='cpf'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_cpf()
                         this.listafuncionarios[id].cpf = novo
                         
                     }
                     if(escolha=='senha'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_senha()
                         this.listafuncionarios[id].senha = novo
                         
                     }
                     if(escolha=='email'){
                         //pega o novo valor e o atribui no cliente novo
                         console.log('qual deve ser o novo(a) '+escolha)
-                        let novo = requisicao.question()
+                        let novo = verificar_email()
                         this.listafuncionarios[id].email = novo
                     }
     
@@ -784,8 +906,6 @@ class sistema{
                     console.log('nome,cpf,senha,email ou nascimento?')
                 }
             }
-            
-            
         }
     }
 
@@ -818,19 +938,16 @@ class sistema{
             let pos = 0
             //pergunta qual quarto deve ser excluido
             console.log('Digite o ID do quarto que desejas excluir')
-            let idquarto = parseFloat(requisicao.question())
-            while(pos<this.listaquartos.length){
-                if (idquarto==this.listaquartos[pos].id_quarto){
-                    //de fato apaga o quarto caso o id escolhido seja igual ao id do quarto
-                    let apagar=this.listaquartos.splice(pos,pos)
-                    console.log('\n\nQUARTO EXCLUIDO COM SUCESSO\n\n')
-                    break
+            let idquarto = verificar_numero()
+            let listaexcluida=[]
+            for (let i = 0; i < this.listaquartos.length; i++) {
+                if (this.listaquartos[i].id_quarto != idquarto) {
+                    listaexcluida.push(this.listaquartos[i]);    
                 }
-                pos=pos+1
             }
-
+            this.listaquartos=listaexcluida
+            console.log('\n\nQUARTO EXCLUIDO COM SUCESSO\n\n')
          }
-
     }
 
     modificar_quarto(){
@@ -862,7 +979,7 @@ class sistema{
            let pos = 0
            //pergunta qual quarto deve ser modificado
            console.log('Digite o ID do quarto que desejas modifcar')
-           let escolha = parseFloat(requisicao.question())
+           let escolha = verificar_numero()
            while(pos<this.listaquartos.length){
 
                if (escolha==this.listaquartos[pos].id_quarto){
@@ -871,25 +988,28 @@ class sistema{
                     let lista = ['ncamas','preco','quantidade','nome','descricao']
                     
                     while(true){
+                        //pergunta o que deve ser modificado
                         console.log('O que voce desejas modificar?')
                         console.log('ncamas,preco,quantidade,nome,descricao')
                         escolha = requisicao.question()
+                        //ate que seja o input aquilo que esta na lista, ele vai ficar no laco de repeticao
                         if(lista.includes(escolha)){
+                            //vai observar qual foi a escolha do usuario e perguntar qual deve ser o novo  
                             if(escolha=='ncamas'){
                                 console.log('Qual deve ser o novo(a) '+ escolha)
-                                let novo = requisicao.question()
+                                let novo = verificar_numero()
                                 this.listaquartos[pos].ncamas = novo
                             }
 
                             if(escolha=='preco'){
                                 console.log('Qual deve ser o novo(a) '+ escolha)
-                                let novo = requisicao.question()
+                                let novo = verificar_numero()
                                 this.listaquartos[pos].preco = novo
                             }
 
                             if(escolha=='quantidade'){
                                 console.log('Qual deve ser o novo(a) '+ escolha)
-                                let novo = requisicao.question()
+                                let novo = verificar_numero()
                                 this.listaquartos[pos].quantidade = parseFloat(novo)
                             }
 
@@ -910,19 +1030,12 @@ class sistema{
                             break
                         }
                         console.log('DIGITE UMA OPCAO VALIDA')
-                    }
-                    
+                    }  
                }
                pos=pos+1
            }
-
         }
-
    }
-
-
-
-
 }
 
 
@@ -1014,9 +1127,6 @@ function main(){
 
                 }
             }
-
-            
-
         }
 
         //login funcionario
@@ -1070,7 +1180,6 @@ function main(){
                         else{
                             console.log(system.verclientes())
                         }
-
                     }
 
                     if (escolha == 6){
@@ -1095,14 +1204,9 @@ function main(){
                         //sai do laco, saindo do login do funcionario
                         break
                     }
-
                 }
             }
-
-
-
         }
-
     }
 }
 
