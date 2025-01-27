@@ -53,8 +53,18 @@ class quartos{
     }
 }
 
+class avaliacoes{
+    constructor(estrelas,quarto,descricao,avaliador){
+        //classe avaliacoes com seus atributos
+        this.estrelas=estrelas
+        this.quarto=quarto
+        this.descricao=descricao
+        this.avaliador=avaliador
+    }
+}
+
 class sistema{
-    constructor(listaclientes,listaclientessegura,listafuncionarios,listareservas,listaquartos,idf,idc,idr,idq){
+    constructor(listaclientes,listaclientessegura,listafuncionarios,listareservas,listaquartos,listaavaliacoes,idf,idc,idr,idq){
         //classe sistema e seus atributos
         this.listaclientes=listaclientes
         //lista para salvar clientes, porem sem suas senhas para os funcionariso verem
@@ -62,13 +72,12 @@ class sistema{
         this.listafuncionarios=listafuncionarios
         this.listareservas=listareservas
         this.listaquartos=listaquartos
+        this.listaavaliacoes=listaavaliacoes
         this.idc=idc
         this.idf=idf
         this.idr=idr
         this.idq=idq
-        this.novoIDC = function() {
-            console.log(idc)
-        }
+        
     }
 
         //print que permite o usuário vizualizar suas opcoes de acao
@@ -88,7 +97,10 @@ class sistema{
         console.log('--->  Digite 3 para fazer reserva')
         console.log('--->  Digite 4 para cancelar reserva')
         console.log('--->  Digite 5 para ver suas reservas')
-        console.log('--->  Digite 6 para sair')
+        console.log('--->  Digite 6 para ver avaliacoes')
+        console.log('--->  Digite 7 para realizar avaliacoes')
+        console.log('--->  Digite 8 para alterar seus dados')
+        console.log('--->  Digite 9 para sair')
     }
 
     //print que permite o funcionario vizualizar as opcoes
@@ -100,7 +112,10 @@ class sistema{
         console.log('--->  Digite 4 para mudar status de reserva')
         console.log('--->  Digite 5 para ver lista de clientes')
         console.log('--->  Digite 6 para adicionar um quarto')
-        console.log('--->  Digite 7 para sair')
+        console.log('--->  Digite 7 para alterar seus dados')
+        console.log('--->  Digite 8 para excluir um quarto')
+        console.log('--->  Digite 9 para modificar um quarto')
+        console.log('--->  Digite 10 para sair')
     }
 
 
@@ -109,9 +124,22 @@ class sistema{
 
         //metodo que permite o cliente realizar cadastro    
     cadastrocliente(){
-        console.log('TEM CERTEZA QUE DESEJAS REALIZAR UM CADASTRO?')
-        console.log('DIGITE s/n')
-        let escolha=requisicao.question()
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
         if (escolha == 's'){
             console.log('Qual é o nome do cliente?')
             let nomecliente = requisicao.question()
@@ -142,9 +170,22 @@ class sistema{
 
     cadastrofuncionario(){
         //pergunta se o usuario deseja continuar, para evitar eventuais clicks errados
-        console.log('TEM CERTEZA QUE DESEJAS REALIZAR UM CADASTRO?')
-        console.log('DIGITE s/n')
-        let escolha=requisicao.question()
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
         if (escolha == 's'){
             //pega as informacoes e as guarda em variaveis
             console.log('Qual é o nome do funcionario?')
@@ -169,9 +210,22 @@ class sistema{
 
 
     logincliente(){ 
-        console.log('TEM CERTEZA QUE DESEJAS REALIZAR UM LOGIN?')
-        console.log('DIGITE s/n')
-        let escolha=requisicao.question()
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
         if(escolha == 's'){
         //copia a lista do objeto em outra lista para facilitar o trabalho
         let list=this.listaclientes
@@ -220,9 +274,22 @@ class sistema{
     }
 
     loginfuncionario(){
-        console.log('TEM CERTEZA QUE DESEJAS REALIZAR UM LOGIN?')
-        console.log('DIGITE s/n')
-        let escolha=requisicao.question()
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
         if(escolha == 's'){
         //copia a lista do objeto em outra lista para facilitar o trabalho
         let list=this.listafuncionarios
@@ -300,13 +367,27 @@ class sistema{
     }
 
     adicionarquarto(){
+        //confere se o usuario realmente quer fazer isso
         console.log('Tem certeza que deseja fazer isso?')
         console.log('DIGITE: s/n')
-        let escolha = requisicao.question()
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n') 
+                console.log('DIGITE: s/n')
+            }
+        }
         if (escolha == 's'){
             //pega as informacoes e as guarda em variaveis
             let id_quarto=this.idq
-            console.log('Qantas camas tem o quarto')
+            console.log('Quantas camas tem o quarto')
             let cama = requisicao.question()
             console.log('Qual o preco/noite?')
             let precos = requisicao.question()
@@ -397,10 +478,13 @@ class sistema{
         }
         let pos = 0
         let reservas = 0
+        //percorre a lista de reservas e busca quais tem o mesmo id do cliente
         while (pos < parseFloat(this.listareservas.length)){
             if (this.listareservas[pos].id_cliente == id){
                 console.log(this.listareservas[pos])
+                //adiciona mais um nas reservas do cliente
                 reservas = reservas + 1
+                
             }   
             pos=pos+1
         }
@@ -408,6 +492,7 @@ class sistema{
             console.log('VOCE NAO TEM RESERVAS')
             return 0
         }
+        return reservas
         
     }
 
@@ -506,6 +591,338 @@ class sistema{
 
     }
 
+    vizualizaravaliacoes(){
+        console.log(this.listaavaliacoes)
+    }
+
+    realizaravaliacoes(id){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+
+        if (escolha == 's'){
+        //imprime as reservas do cliente para ele avaliar
+        if (this.verreservas_cliente(id)==0){
+            return 0
+        }
+    
+        let avalia = this.listaclientes[id].nome
+        console.log('Quantas estrelas voce da para o quarto? (de 0 a 5)')
+        let stars = requisicao.question()
+        console.log('De uma pequena descricao da avaliacao')
+        let desc = requisicao.question()
+        console.log('Qual era o nome do quarto?')
+        let nome_quarto
+        //compila as informacoes no objeto avaliacoes
+        let avaliacao = new avaliacoes(stars,nome_quarto,desc,avalia)
+        this.listaavaliacoes.push(avaliacao)
+    }
+
+    }
+
+    editardados_cliente(id){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+
+        if (escolha == 's'){
+            //cria uma lista de opcoes para o usuario poder trocar
+            let opcoes = ['nome','cpf','senha','email','nascimento']
+            console.log('Qual dado desejas editar?')
+            console.log('nome,cpf,senha,email ou nascimento?')
+            let escolhacerta = true
+            
+            while (escolhacerta){
+                let escolha = requisicao.question()
+                if(opcoes.includes(escolha)){
+
+                    if(escolha=='nome'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listaclientes[id].nome = novo
+
+                    }
+                    if(escolha=='cpf'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listaclientes[id].cpf = novo
+                        
+                    }
+                    if(escolha=='senha'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listaclientes[id].senha = novo
+                        
+                    }
+                    if(escolha=='email'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listaclientes[id].email = novo
+                    }
+                    if(escolha=='nascimento'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listaclientes[id].data_nascimento = novo
+                        
+                    }
+
+                    console.log(escolha + ' alterado(a) com sucesso!!')
+
+                    break
+                
+                }
+                else{
+                    //caso o usuario decida nao digitar uma opcao valida
+                    console.log('DIGITE UMA OPCAO VALIDA')
+                }
+            }
+            
+            
+        }
+    }
+
+    editardados_funcionarios(id){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+
+        if (escolha == 's'){
+            //cria uma lista de opcoes para o usuario poder trocar
+            let opcoes = ['nome','cpf','senha','email']
+            console.log('Qual dado desejas editar?')
+            console.log('nome,cpf,senha,email')
+            let escolhacerta = true
+            
+            while (escolhacerta){
+                let escolha = requisicao.question()
+                if(opcoes.includes(escolha)){
+
+                    if(escolha=='nome'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listafuncionarios[id].nome = novo
+
+                    }
+                    if(escolha=='cpf'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listafuncionarios[id].cpf = novo
+                        
+                    }
+                    if(escolha=='senha'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listafuncionarios[id].senha = novo
+                        
+                    }
+                    if(escolha=='email'){
+                        //pega o novo valor e o atribui no cliente novo
+                        console.log('qual deve ser o novo(a) '+escolha)
+                        let novo = requisicao.question()
+                        this.listafuncionarios[id].email = novo
+                    }
+    
+                    //confirma a troca
+                    console.log(escolha + ' alterado(a) com sucesso!!')
+
+                    break
+                
+                }
+                else{
+                    //caso o usuario decida nao digitar uma opcao valida
+                    console.log('DIGITE UMA OPCAO VALIDA')
+                    console.log('nome,cpf,senha,email ou nascimento?')
+                }
+            }
+            
+            
+        }
+    }
+
+    excluir_quarto(){
+         //confere se o usuario realmente quer fazer isso
+         console.log('Tem certeza que deseja fazer isso?')
+         console.log('DIGITE: s/n')
+         let listaopcoes = ['s','n']
+         let escolhacerta = true
+         //confere se a escolha esta contina no s ou n
+         while (escolhacerta){
+             var escolha = requisicao.question()
+             //se estiver sai do laco de repeticao
+             if (listaopcoes.includes(escolha)){
+                 escolhacerta=false
+             }
+             else{
+                 console.log('escolha uma opcao valida\n')
+                 console.log('DIGITE: s/n')
+             }
+         }
+         
+         if (escolha == 's'){
+            //se nao tiver quartos cadastrados ele nao apaga nada
+            if(parseFloat(this.listaquartos.length) == 0){
+                console.log('NAO HA QUARTOS PARA SEREM EXCLUIDOS')
+                return 0
+            }
+            console.log(this.listaquartos)
+            let pos = 0
+            //pergunta qual quarto deve ser excluido
+            console.log('Digite o ID do quarto que desejas excluir')
+            let idquarto = parseFloat(requisicao.question())
+            while(pos<this.listaquartos.length){
+                if (idquarto==this.listaquartos[pos].id_quarto){
+                    //de fato apaga o quarto caso o id escolhido seja igual ao id do quarto
+                    let apagar=this.listaquartos.splice(pos,pos)
+                    console.log('\n\nQUARTO EXCLUIDO COM SUCESSO\n\n')
+                    break
+                }
+                pos=pos+1
+            }
+
+         }
+
+    }
+
+    modificar_quarto(){
+        //confere se o usuario realmente quer fazer isso
+        console.log('Tem certeza que deseja fazer isso?')
+        console.log('DIGITE: s/n')
+        let listaopcoes = ['s','n']
+        let escolhacerta = true
+        //confere se a escolha esta contina no s ou n
+        while (escolhacerta){
+            var escolha = requisicao.question()
+            //se estiver sai do laco de repeticao
+            if (listaopcoes.includes(escolha)){
+                escolhacerta=false
+            }
+            else{
+                console.log('escolha uma opcao valida\n')
+                console.log('DIGITE: s/n')
+            }
+        }
+        
+        if (escolha == 's'){
+           //se nao tiver quartos cadastrados ele nao entra no laco
+           if(parseFloat(this.listaquartos.length) == 0){
+               console.log('NAO HA QUARTOS PARA SEREM MODIFICADOS')
+               return 0
+           }
+           console.log(this.listaquartos)
+           let pos = 0
+           //pergunta qual quarto deve ser modificado
+           console.log('Digite o ID do quarto que desejas modifcar')
+           let escolha = parseFloat(requisicao.question())
+           while(pos<this.listaquartos.length){
+
+               if (escolha==this.listaquartos[pos].id_quarto){
+                    //de fato apaga o quarto caso o id escolhido seja igual ao id do quarto
+                   
+                    let lista = ['ncamas','preco','quantidade','nome','descricao']
+                    
+                    while(true){
+                        console.log('O que voce desejas modificar?')
+                        console.log('ncamas,preco,quantidade,nome,descricao')
+                        escolha = requisicao.question()
+                        if(lista.includes(escolha)){
+                            if(escolha=='ncamas'){
+                                console.log('Qual deve ser o novo(a) '+ escolha)
+                                let novo = requisicao.question()
+                                this.listaquartos[pos].ncamas = novo
+                            }
+
+                            if(escolha=='preco'){
+                                console.log('Qual deve ser o novo(a) '+ escolha)
+                                let novo = requisicao.question()
+                                this.listaquartos[pos].preco = novo
+                            }
+
+                            if(escolha=='quantidade'){
+                                console.log('Qual deve ser o novo(a) '+ escolha)
+                                let novo = requisicao.question()
+                                this.listaquartos[pos].quantidade = parseFloat(novo)
+                            }
+
+                            if(escolha=='nome'){
+                                console.log('Qual deve ser o novo(a) '+ escolha)
+                                let novo = requisicao.question()
+                                this.listaquartos[pos].nome = novo
+                            }
+
+                            if(escolha=='descricao'){
+                                console.log('Qual deve ser o novo(a) '+ escolha)
+                                let novo = requisicao.question()
+                                this.listaquartos[pos].descricao = novo
+                            }
+
+
+                            console.log('\n\nQUARTO MODIFICADO COM SUCESSO\n\n')
+                            break
+                        }
+                        console.log('DIGITE UMA OPCAO VALIDA')
+                    }
+                    
+               }
+               pos=pos+1
+           }
+
+        }
+
+   }
+
+
+
+
 }
 
 
@@ -513,7 +930,7 @@ function main(){
     console.log('BEM VINDO AO SISTEMA DO HOTEL F-LUXO!\n')
     let escolha = 1
     //cria o sistema, com as suas listas e IDs zerados
-    let system = new sistema([],[],[],[],[],0,0,0,0)
+    let system = new sistema([],[],[],[],[],[],0,0,0,0)
 
         while (escolha != 5){
         //imprime as opcoes do client
@@ -547,7 +964,7 @@ function main(){
             //ve se deu falso
             if(resposta !== false){
                 let escolha = 0
-                while(escolha != 6){
+                while(escolha != 9){
                     system.paginacliente()
                     escolha=requisicao.question()   
                     
@@ -578,9 +995,20 @@ function main(){
 
                     }
 
+                    if (escolha == 6){
+                        system.vizualizaravaliacoes()
+                    }
+
+                    if (escolha == 7){
+                        system.realizaravaliacoes(resposta)
+                    }
+
+                    if (escolha == 8){
+                        system.editardados_cliente(resposta)
+                    }
                     
                     //caso o cliente desejese sair
-                    if (escolha==6){
+                    if (escolha==9){
                         break
                     }
 
@@ -595,11 +1023,11 @@ function main(){
         if (escolha == 4){
             //pega o return do login
             let resposta = system.loginfuncionario()
-            //ve se deu falso
 
+            //ve se deu falso, se for diferente de falso ele loga
             if(resposta !== false){
                 let escolha = 0
-                while(escolha != 7){
+                while(escolha != 10){
                     system.paginafuncionario()
                     escolha=requisicao.question()
 
@@ -650,7 +1078,20 @@ function main(){
                         system.adicionarquarto()
                     }
 
-                    if (escolha==7){
+                    if (escolha == 7){
+                        system.editardados_funcionarios(resposta)
+                    }
+
+                    if (escolha == 8){
+                        system.excluir_quarto()
+                    }
+                    
+                    if (escolha == 9){
+                        system.modificar_quarto()
+                    }
+                    
+
+                    if (escolha==10){
                         //sai do laco, saindo do login do funcionario
                         break
                     }
