@@ -708,7 +708,11 @@ class sistema{
     }
 
     vizualizaravaliacoes(){
-        console.log(this.listaavaliacoes)
+        if(this.listaavaliacoes.length==0){
+            console.log('NAO HA AVALIACOES CADASTRADAS')
+        }
+        else{console.log(this.listaavaliacoes)}
+        
     }
 
     realizaravaliacoes(id){
@@ -1079,7 +1083,13 @@ function main(){
                 let escolha = 0
                 while(escolha != 9){
                     system.paginacliente()
-                    escolha=requisicao.question()   
+                    let listaopcoes = ['0','1','2','3','4','5','6','7','8','9']
+                    escolha=requisicao.question()
+                    
+                    if (!(escolha in listaopcoes)){
+                        if (escolha != 5){
+                        console.log('\n DIGITE UM VALOR VALIDO \n')
+                        continue}}  
                     
                     if (escolha == 1){
                     //com o id na resposta, imprime os dados apenas do cliente com aquele id
@@ -1139,7 +1149,13 @@ function main(){
                 let escolha = 0
                 while(escolha != 10){
                     system.paginafuncionario()
+                    let listaopcoes = ['0','1','2','3','4','5','6','7','8','9','10']
                     escolha=requisicao.question()
+
+                    if (!(escolha in listaopcoes)){
+                        if (escolha != 5){
+                        console.log('\n DIGITE UM VALOR VALIDO \n')
+                        continue}}
 
                     if (escolha == 1){
                         //com o id na resposta, imprime os dados apenas do funcionario com aquele id
